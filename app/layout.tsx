@@ -20,7 +20,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-	title: 'Messanger',
+	title: 'Messenger',
 	description: 'Seamless messaging, effortless connections.',
 };
 
