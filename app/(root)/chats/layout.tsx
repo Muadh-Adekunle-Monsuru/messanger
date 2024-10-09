@@ -28,7 +28,6 @@ export default function PageLayout({
 	return (
 		<div className='h-screen w-full flex'>
 			<ChatList user={user as unknown as User} />
-
 			{children}
 		</div>
 	);

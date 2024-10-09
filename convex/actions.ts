@@ -111,6 +111,7 @@ export const getFriends = query({
 			.filter((q) => q.eq(q.field('userId'), args.userId))
 			.first();
 
-		return user?.friendsList;
+		if (!user) return 'no user';
+		return { userName: user?.userName, imageUrl: user?.imageUrl };
 	},
 });
