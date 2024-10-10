@@ -16,6 +16,23 @@ export default defineSchema({
 				})
 			)
 		),
-		chats: v.optional(v.array(v.string())),
+		chats: v.array(
+			v.object({
+				friendUserName: v.string(),
+				friendUserId: v.string(),
+				friendImageUrl: v.string(),
+				messages: v.array(
+					v.object({
+						messageId: v.string(),
+						content: v.string(),
+						sender: v.string(),
+						date: v.string(),
+						seen: v.boolean(),
+						deleted: v.boolean(),
+						imageUrl: v.optional(v.string()),
+					})
+				),
+			})
+		),
 	}),
 });

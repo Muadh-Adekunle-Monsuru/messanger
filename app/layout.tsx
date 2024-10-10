@@ -10,6 +10,7 @@ import {
 } from '@clerk/nextjs';
 import { ConvexClientProvider } from '@/convex/ConvexClientProvider';
 import { Toaster } from '@/components/ui/toaster';
+
 const geistSans = localFont({
 	src: './fonts/GeistVF.woff',
 	variable: '--font-geist-sans',

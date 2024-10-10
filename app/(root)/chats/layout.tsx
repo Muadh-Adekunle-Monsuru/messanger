@@ -1,10 +1,10 @@
 'use client';
 import { useEffect } from 'react';
-import ChatList from './components/ChatList';
 import { useUser } from '@clerk/nextjs';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { User } from '@clerk/nextjs/server';
+import Sidebar from './components/Sidebar';
 
 export default function PageLayout({
 	children,
@@ -26,8 +26,8 @@ export default function PageLayout({
 		}
 	}, [isLoaded, isSignedIn, user]);
 	return (
-		<div className='h-screen w-full flex'>
-			<ChatList user={user as unknown as User} />
+		<div className='h-screen max-h-screen overflow-hidden w-full flex'>
+			<Sidebar user={user as unknown as User} />
 			{children}
 		</div>
 	);

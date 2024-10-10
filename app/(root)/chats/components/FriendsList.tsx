@@ -14,7 +14,7 @@ export default function FriendsList({
 	friendList: FriendData[] | undefined;
 }) {
 	return (
-		<div>
+		<div className='px-3'>
 			<p className='font-semibold text-sm '>Friends</p>
 			<div className='flex w-full gap-3 items-center overflow-x-auto scrollbar scrollbar-h-1 scrollbar-thumb-neutral-700 scrollbar-track-transparent scrollbar-thumb-rounded-full py-2'>
 				{friendList?.map((friend) => (
