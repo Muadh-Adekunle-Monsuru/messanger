@@ -14,6 +14,7 @@ import { api } from '@/convex/_generated/api';
 import { UserButton } from '@clerk/nextjs';
 import { Skeleton } from '@/components/ui/skeleton';
 import ChatList from '@/components/ChatList';
+import SidebarMenu from '@/components/SidebarMenu';
 
 export default function Sidebar({ user }: { user: User | undefined | null }) {
 	if (!user)
@@ -46,9 +47,7 @@ export default function Sidebar({ user }: { user: User | undefined | null }) {
 					<h2 className='font-bold text-xl'>Chats</h2>
 					<div className='flex gap-3 items-center'>
 						<AddFriendDialog userId={user.id} />
-						<div className='p-1 hover:bg-neutral-200 transition-colors rounded-md cursor-pointer'>
-							<EllipsisVertical className='size-5 cursor-pointer' />
-						</div>
+						<SidebarMenu />
 					</div>
 				</div>
 				<SearchBar />
