@@ -8,13 +8,16 @@ export type friendDataType = {
 	userName: string | undefined;
 	imageUrl: string | undefined;
 	userId: string | undefined;
+	isOnline?: boolean | undefined;
 };
 export default function ChatHeader({
 	friendData,
 	userId,
+	isTyping,
 }: {
-	friendData?: friendDataType;
+	friendData?: friendDataType | undefined;
 	userId?: string | null;
+	isTyping?: boolean | undefined;
 }) {
 	return (
 		<div className='w-full p-3 flex items-center justify-between bg-neutral-50 shadow-sm sticky top-0 left-0 right-0 z-40'>
@@ -26,9 +29,15 @@ export default function ChatHeader({
 							width={50}
 							height={50}
 							alt='text'
-							className='size-5 rounded-full'
+							className='size-6 rounded-full'
 						/>
-						<p className='font-medium'>{friendData.userName}</p>
+						<div className='flex flex-col'>
+							<p className='font-medium'>{friendData.userName}</p>
+							<p className='text-[0.6rem] text-muted-foreground'>
+								{/* {friendData.isOnline && 'online'} */}
+								{isTyping ? 'Typing...' : friendData.isOnline ? 'Online' : ''}
+							</p>
+						</div>
 					</div>
 				) : (
 					<div className='flex gap-2'>

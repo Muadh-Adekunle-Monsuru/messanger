@@ -7,6 +7,7 @@ export default defineSchema({
 		email: v.string(),
 		imageUrl: v.string(),
 		userName: v.string(),
+		isOnline: v.optional(v.boolean()),
 		friendsList: v.optional(
 			v.array(
 				v.object({
@@ -21,6 +22,7 @@ export default defineSchema({
 				friendUserName: v.string(),
 				friendUserId: v.string(),
 				friendImageUrl: v.string(),
+				isTyping: v.optional(v.boolean()),
 				messages: v.array(
 					v.object({
 						messageId: v.string(),

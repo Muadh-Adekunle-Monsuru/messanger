@@ -11,7 +11,7 @@ export type ChatType = {
 	messages: {
 		imageUrl?: string | undefined;
 		messageId: string;
-		content: string;
+		content?: string | undefined;
 		sender: string;
 		date: string;
 		seen: boolean;

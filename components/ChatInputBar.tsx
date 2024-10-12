@@ -1,5 +1,5 @@
 'use client';
-import React, { FormEvent, KeyboardEvent, useState } from 'react';
+import React, { FormEvent, KeyboardEvent, useRef, useState } from 'react';
 import { Input } from './ui/input';
 import { Image, Plus, SendHorizonal, Smile } from 'lucide-react';
 import { useMutation } from 'convex/react';
@@ -25,6 +25,9 @@ export default function ChatInputBar({
 	const [showEmoji, setShowEmoji] = useState(false);
 	const [imageUrl, setImageUrl] = useState('');
 
+	const setTyping = useMutation(api.actions.setTyping);
+
+	const timeoutId = useRef<number | null>(null);
 	const handleSubmit = async (e?: FormEvent) => {
 		if (e) {
 			e.preventDefault();
@@ -53,6 +56,15 @@ export default function ChatInputBar({
 	};
 
 	const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+		if (!userId) return;
+		if (timeoutId.current) clearTimeout(timeoutId.current);
+
+		setTyping({ userId, value: true, friendId });
+
+		timeoutId.current = window.setTimeout(() => {
+			setTyping({ userId, value: false, friendId });
+		}, 4000);
+
 		if (e.key === 'Enter') {
 			if (e.shiftKey) {
 				// If Shift + Enter is pressed, insert a new line

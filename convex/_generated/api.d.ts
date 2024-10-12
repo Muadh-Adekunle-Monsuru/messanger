@@ -17,6 +17,7 @@ import type {
 } from "convex/server";
 import type * as actions from "../actions.js";
 import type * as ConvexClientProvider from "../ConvexClientProvider.js";
+import type * as http from "../http.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -29,6 +30,7 @@ import type * as ConvexClientProvider from "../ConvexClientProvider.js";
 declare const fullApi: ApiFromModules<{
   actions: typeof actions;
   ConvexClientProvider: typeof ConvexClientProvider;
+  http: typeof http;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

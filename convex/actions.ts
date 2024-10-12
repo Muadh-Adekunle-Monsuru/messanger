@@ -1,6 +1,6 @@
 import { convexToJson, v } from 'convex/values';
-import { query, mutation } from './_generated/server';
-import { Id } from './_generated/dataModel';
+import { query, mutation, httpAction } from './_generated/server';
+import { internal } from './_generated/api';
 
 export const createUser = mutation({
 	args: {
@@ -117,6 +117,7 @@ export const getFriends = query({
 			userName: user?.userName,
 			imageUrl: user?.imageUrl,
 			userId: user.userId,
+			isOnline: user.isOnline,
 		};
 	},
 });
@@ -348,5 +349,128 @@ export const deleteChat = mutation({
 		user.chats = user.chats.filter((chat) => chat.friendUserId !== friendId);
 
 		await ctx.db.patch(user._id, { chats: user.chats });
+	},
+});
+
+export const setOnline = mutation({
+	args: {
+		userId: v.string(),
+	},
+	handler: async (ctx, args) => {
+		const { userId } = args;
+		const user = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), userId))
+			.first();
+		if (!user) return;
+		await ctx.db.patch(user._id, { isOnline: true });
+	},
+});
+
+export const setOfflineMutation = mutation({
+	args: {
+		userId: v.string(),
+	},
+	handler: async (ctx, args) => {
+		const { userId } = args;
+
+		const user = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), userId))
+			.first();
+		if (!user) return;
+		await ctx.db.patch(user._id, { isOnline: false });
+	},
+});
+
+export const setOfflineRoute = httpAction(async (ctx, request) => {
+	const requestdata = await request.json();
+
+	let userId = requestdata;
+	// @ts-ignore
+	await ctx.runMutation(internal.actions.setOfflineMutation, {
+		userId,
+	});
+
+	return new Response(null, {
+		status: 200,
+		headers: new Headers({
+			'Access-Control-Allow-Origin': '*',
+			Vary: 'origin',
+		}),
+	});
+});
+
+export const setTyping = mutation({
+	args: {
+		userId: v.string(),
+		friendId: v.string(),
+		value: v.boolean(),
+	},
+	handler: async (ctx, args) => {
+		const { friendId, userId, value } = args;
+		const friend = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), friendId))
+			.first();
+
+		if (!friend) return;
+
+		const chatIndex = friend.chats.findIndex(
+			(chat) => chat.friendUserId == userId
+		);
+		friend.chats[chatIndex].isTyping = value;
+
+		await ctx.db.patch(friend._id, { chats: friend.chats });
+	},
+});
+
+export const deleteMessage = mutation({
+	args: {
+		userId: v.string(),
+		friendId: v.string(),
+		messageId: v.string(),
+	},
+	handler: async (ctx, args) => {
+		const { friendId, messageId, userId } = args;
+
+		const user = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), userId))
+			.first();
+
+		if (!user) return;
+
+		const ChatIndex = user.chats?.findIndex(
+			(chat) => chat.friendUserId == friendId
+		);
+
+		const MessageIndex = user.chats[ChatIndex].messages.findIndex(
+			(message) => message.messageId == messageId
+		);
+
+		user.chats[ChatIndex].messages[MessageIndex].deleted = true;
+
+		await ctx.db.patch(user._id, { chats: user.chats });
+
+		//Updating friends database with the same message
+
+		const friend = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), friendId))
+			.first();
+
+		if (!friend) return;
+
+		const friendChatIndex = friend.chats?.findIndex(
+			(chat) => chat.friendUserId == args.userId
+		);
+
+		const friendMessageIndex = friend.chats[friendChatIndex].messages.findIndex(
+			(message) => message.messageId == messageId
+		);
+
+		friend.chats[friendChatIndex].messages[friendMessageIndex].deleted = true;
+		await ctx.db.patch(friend._id, { chats: friend.chats });
 	},
 });

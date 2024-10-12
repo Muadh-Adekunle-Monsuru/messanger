@@ -13,6 +13,7 @@ export default function PageLayout({
 }>) {
 	const { isLoaded, isSignedIn, user } = useUser();
 	const createUser = useMutation(api.actions.createUser);
+	const setOnline = useMutation(api.actions.setOnline);
 	useEffect(() => {
 		if (isLoaded && isSignedIn) {
 			createUser({
@@ -23,8 +24,25 @@ export default function PageLayout({
 					imageUrl: user.imageUrl,
 				},
 			});
+			setOnline({ userId: user.id });
 		}
 	}, [isLoaded, isSignedIn, user]);
+
+	useEffect(() => {
+		const handleClose = () => {
+			if (!user?.id) return;
+			const payload = JSON.stringify(user.id);
+			const url = 'https://calculating-alpaca-828.convex.site/setOffline';
+
+			navigator.sendBeacon(url, payload);
+		};
+
+		window.addEventListener('beforeunload', handleClose);
+
+		return () => {
+			window.removeEventListener('beforeunload', handleClose);
+		};
+	}, [user?.id]);
 	return (
 		<div className='h-screen max-h-screen overflow-hidden w-full flex'>
 			<Sidebar user={user as unknown as User} />

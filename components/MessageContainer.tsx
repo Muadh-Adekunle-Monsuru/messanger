@@ -19,7 +19,7 @@ import { api } from '@/convex/_generated/api';
 export type MessageType = {
 	imageUrl?: string | undefined;
 	messageId: string;
-	content: string;
+	content?: string | undefined;
 	sender: string;
 	date: string;
 	seen: boolean;
@@ -68,25 +68,35 @@ export default function MessageContainer({
 			className={`rounded-lg bg-white ${emoji ? 'my-2' : 'my-1'}  p-2 w-fit ${userId == sender && 'ml-auto bg-blue-50'} shadow-sm group relative max-w-sm`}
 		>
 			<div
-				className={`size-6 bg-neutral-200/20 rounded-full flex items-center justify-center absolute  ${userId == sender && '-left-7'} -right-7 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity`}
+				className={`size-6 bg-neutral-200/20 rounded-full flex items-center justify-center absolute  ${userId == sender && '-left-7'} -right-7 top-[35%] cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity`}
 				onClick={() => {
 					setShowReaction(true);
 				}}
 			>
 				<Smile className='size-4 text-neutral-400' fill='white' />
 			</div>
-			{imageUrl && (
+
+			{imageUrl && !deleted && (
 				<a className='max-w-sm mb-1' href={imageUrl} target='_blank'>
 					<img src={imageUrl} className='object-contain rounded-lg' />
 				</a>
 			)}
-			<p className='font-thin pr-10 pb-1'>{content}</p>
+
+			<p className='font-thin pr-10 pb-1'>
+				{deleted ? (
+					<p className='italic text-xs'>This message has been deleted</p>
+				) : (
+					content
+				)}
+			</p>
+
 			<div className='absolute top-0 right-2 z-1 '>
 				<MessageDropdown
 					friendId={friendId}
 					userId={userId || ''}
 					messageId={messageId}
 					starred={starred}
+					showReaction={setShowReaction}
 				/>
 			</div>
 

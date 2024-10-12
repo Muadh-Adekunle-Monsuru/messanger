@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -16,15 +16,21 @@ export default function MessageDropdown({
 	messageId,
 	userId,
 	starred,
+	showReaction,
 }: {
 	friendId: string;
 	messageId: string;
 	userId: string;
 	starred?: boolean;
+	showReaction: Dispatch<SetStateAction<boolean>>;
 }) {
 	const setStar = useMutation(api.actions.starMessage);
+	const deleteMessage = useMutation(api.actions.deleteMessage);
 	const toggleStar = async () => {
 		await setStar({ friendId, messageId, userId });
+	};
+	const handleDelete = async () => {
+		await deleteMessage({ friendId, messageId, userId });
 	};
 	return (
 		<DropdownMenu>
@@ -33,11 +39,13 @@ export default function MessageDropdown({
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
 				<DropdownMenuItem>Reply</DropdownMenuItem>
-				<DropdownMenuItem>React</DropdownMenuItem>
+				<DropdownMenuItem onClick={() => showReaction((prev) => !prev)}>
+					React
+				</DropdownMenuItem>
 				<DropdownMenuItem onClick={toggleStar}>
 					{starred ? 'Unstar' : 'Star'}
 				</DropdownMenuItem>
-				<DropdownMenuItem>Delete</DropdownMenuItem>
+				<DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);
