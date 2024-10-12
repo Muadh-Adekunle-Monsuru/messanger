@@ -226,3 +226,82 @@ export const getAllChats = query({
 		return user.chats;
 	},
 });
+
+export const starMessage = mutation({
+	args: {
+		userId: v.string(),
+		friendId: v.string(),
+		messageId: v.string(),
+	},
+	handler: async (ctx, args) => {
+		const { friendId, messageId, userId } = args;
+		const user = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), userId))
+			.first();
+
+		if (!user) return;
+		const chatIndex = user.chats.findIndex((p) => p.friendUserId == friendId);
+		const messageIndex = user.chats[chatIndex].messages.findIndex(
+			(q) => q.messageId == messageId
+		);
+		//starring or unstarring message
+		user.chats[chatIndex].messages[messageIndex].starred = user.chats[chatIndex]
+			.messages[messageIndex].starred
+			? false
+			: true;
+
+		await ctx.db.patch(user._id, { chats: user.chats });
+	},
+});
+
+export const reactMessage = mutation({
+	args: {
+		userId: v.string(),
+		friendUserId: v.string(),
+		messageId: v.string(),
+		emoji: v.string(),
+	},
+	handler: async (ctx, args) => {
+		const { emoji, friendUserId, messageId, userId } = args;
+
+		const user = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), userId))
+			.first();
+
+		if (!user) return;
+
+		const ChatIndex = user.chats?.findIndex(
+			(chat) => chat.friendUserId == friendUserId
+		);
+
+		const MessageIndex = user.chats[ChatIndex].messages.findIndex(
+			(message) => message.messageId == messageId
+		);
+
+		user.chats[ChatIndex].messages[MessageIndex].emoji = emoji;
+
+		await ctx.db.patch(user._id, { chats: user.chats });
+
+		//Updating friends database with the same message
+
+		const friend = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), friendUserId))
+			.first();
+
+		if (!friend) return;
+
+		const friendChatIndex = friend.chats?.findIndex(
+			(chat) => chat.friendUserId == args.userId
+		);
+
+		const friendMessageIndex = friend.chats[friendChatIndex].messages.findIndex(
+			(message) => message.messageId == messageId
+		);
+
+		friend.chats[friendChatIndex].messages[friendMessageIndex].emoji = emoji;
+		await ctx.db.patch(friend._id, { chats: friend.chats });
+	},
+});

@@ -30,6 +30,8 @@ export default defineSchema({
 						seen: v.boolean(),
 						deleted: v.boolean(),
 						imageUrl: v.optional(v.string()),
+						starred: v.optional(v.boolean()),
+						emoji: v.optional(v.string()),
 					})
 				),
 			})

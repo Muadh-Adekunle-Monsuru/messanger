@@ -16,6 +16,8 @@ export type ChatType = {
 		date: string;
 		seen: boolean;
 		deleted: boolean;
+		starred?: boolean | undefined;
+		emoji?: boolean | undefined;
 	}[];
 };
 export default function ChatBody({
@@ -41,6 +43,7 @@ export default function ChatBody({
 						key={message.messageId}
 						message={message}
 						userId={userId}
+						friendId={chat.friendUserId}
 					/>
 				))}
 		</div>

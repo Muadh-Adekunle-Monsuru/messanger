@@ -8,20 +8,36 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ChevronDown } from 'lucide-react';
+import { useMutation } from 'convex/react';
+import { api } from '@/convex/_generated/api';
 
-export default function MessageDropdown() {
+export default function MessageDropdown({
+	friendId,
+	messageId,
+	userId,
+	starred,
+}: {
+	friendId: string;
+	messageId: string;
+	userId: string;
+	starred?: boolean;
+}) {
+	const setStar = useMutation(api.actions.starMessage);
+	const toggleStar = async () => {
+		await setStar({ friendId, messageId, userId });
+	};
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger className='hidden group-hover:flex'>
-				<ChevronDown className='size-4 cursor-pointer' />
+			<DropdownMenuTrigger className='opacity-0 group-hover:opacity-75 transition-opacity outline-none'>
+				<ChevronDown className='size-5 cursor-pointer text-muted-foreground' />
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
-				<DropdownMenuLabel>My Account</DropdownMenuLabel>
-				<DropdownMenuSeparator />
-				<DropdownMenuItem>Profile</DropdownMenuItem>
-				<DropdownMenuItem>Billing</DropdownMenuItem>
-				<DropdownMenuItem>Team</DropdownMenuItem>
-				<DropdownMenuItem>Subscription</DropdownMenuItem>
+				<DropdownMenuItem>Reply</DropdownMenuItem>
+				<DropdownMenuItem>React</DropdownMenuItem>
+				<DropdownMenuItem onClick={toggleStar}>
+					{starred ? 'Unstar' : 'Star'}
+				</DropdownMenuItem>
+				<DropdownMenuItem>Delete</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);
