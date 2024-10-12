@@ -113,7 +113,11 @@ export const getFriends = query({
 			.first();
 
 		if (!user) return 'no user';
-		return { userName: user?.userName, imageUrl: user?.imageUrl };
+		return {
+			userName: user?.userName,
+			imageUrl: user?.imageUrl,
+			userId: user.userId,
+		};
 	},
 });
 
@@ -303,5 +307,46 @@ export const reactMessage = mutation({
 
 		friend.chats[friendChatIndex].messages[friendMessageIndex].emoji = emoji;
 		await ctx.db.patch(friend._id, { chats: friend.chats });
+	},
+});
+
+export const clearChat = mutation({
+	args: {
+		userId: v.string(),
+		friendId: v.string(),
+	},
+	handler: async (ctx, args) => {
+		const { friendId, userId } = args;
+		const user = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), userId))
+			.first();
+
+		if (!user) return;
+		const chatIndex = user.chats.findIndex((p) => p.friendUserId == friendId);
+
+		user.chats[chatIndex].messages = [];
+
+		await ctx.db.patch(user._id, { chats: user.chats });
+	},
+});
+
+export const deleteChat = mutation({
+	args: {
+		userId: v.string(),
+		friendId: v.string(),
+	},
+	handler: async (ctx, args) => {
+		const { friendId, userId } = args;
+		const user = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), userId))
+			.first();
+
+		if (!user) return;
+
+		user.chats = user.chats.filter((chat) => chat.friendUserId !== friendId);
+
+		await ctx.db.patch(user._id, { chats: user.chats });
 	},
 });

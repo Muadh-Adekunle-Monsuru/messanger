@@ -25,7 +25,7 @@ export type MessageType = {
 	seen: boolean;
 	deleted: boolean;
 	starred?: boolean | undefined;
-	emoji?: boolean | undefined;
+	emoji?: string | undefined;
 };
 export default function MessageContainer({
 	message,
@@ -65,7 +65,7 @@ export default function MessageContainer({
 	};
 	return (
 		<div
-			className={`rounded-lg bg-white ${emoji ? 'my-2' : 'my-1'}  p-2 w-fit ${userId == sender && 'ml-auto bg-blue-50'} shadow-sm group relative`}
+			className={`rounded-lg bg-white ${emoji ? 'my-2' : 'my-1'}  p-2 w-fit ${userId == sender && 'ml-auto bg-blue-50'} shadow-sm group relative max-w-sm`}
 		>
 			<div
 				className={`size-6 bg-neutral-200/20 rounded-full flex items-center justify-center absolute  ${userId == sender && '-left-7'} -right-7 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity`}
@@ -108,9 +108,11 @@ export default function MessageContainer({
 					<CheckCheck className='size-3 text-blue-400' />
 				</span>
 			</div>
-			<p className='absolute right-0 -bottom-5 rounded-full bg-white p-1 text-xs z-10'>
-				{emoji}
-			</p>
+			{emoji && (
+				<p className='absolute right-0 -bottom-5 rounded-full bg-white p-1 text-xs z-10'>
+					{emoji}
+				</p>
+			)}
 		</div>
 	);
 }

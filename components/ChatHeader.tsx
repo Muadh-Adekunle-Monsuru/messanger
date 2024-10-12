@@ -2,18 +2,22 @@ import { EllipsisVertical } from 'lucide-react';
 import React from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
+import ChatBodyMenu from './ChatBodyMenu';
 
 export type friendDataType = {
 	userName: string | undefined;
 	imageUrl: string | undefined;
+	userId: string | undefined;
 };
 export default function ChatHeader({
 	friendData,
+	userId,
 }: {
 	friendData?: friendDataType;
+	userId?: string | null;
 }) {
 	return (
-		<div className='w-full p-3 flex items-center justify-between bg-neutral-50 shadow-sm sticky top-0 left-0 right-0'>
+		<div className='w-full p-3 flex items-center justify-between bg-neutral-50 shadow-sm sticky top-0 left-0 right-0 z-40'>
 			<div>
 				{friendData ? (
 					<div className='flex gap-2 items-center'>
@@ -33,7 +37,7 @@ export default function ChatHeader({
 					</div>
 				)}
 			</div>
-			<EllipsisVertical className='size-5' />
+			<ChatBodyMenu userId={userId} friendId={friendData?.userId} />
 		</div>
 	);
 }

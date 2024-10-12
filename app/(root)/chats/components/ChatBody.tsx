@@ -17,7 +17,7 @@ export type ChatType = {
 		seen: boolean;
 		deleted: boolean;
 		starred?: boolean | undefined;
-		emoji?: boolean | undefined;
+		emoji?: string | undefined;
 	}[];
 };
 export default function ChatBody({

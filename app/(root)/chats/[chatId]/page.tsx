@@ -21,7 +21,7 @@ export default function Page({ params }: { params: { chatId: string } }) {
 	if (friendData == 'no user') redirect('/chats');
 	return (
 		<div className='h-full w-full largesidebar-background flex flex-col gap-4 items-center blur-[0.3px] overflow-x-hidden overflow-y-auto relative   scrollbar scrollbar-w-1 scrollbar-thumb-neutral-700 scrollbar-track-transparent scrollbar-thumb-rounded-full '>
-			<ChatHeader friendData={friendData} />
+			<ChatHeader friendData={friendData} userId={user?.id} />
 			<ChatBody chat={chat} userId={user?.id} />
 			<ChatInputBar
 				userId={user?.id}
