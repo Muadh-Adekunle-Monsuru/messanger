@@ -75,6 +75,11 @@ export default function MessageContainer({
 			>
 				<Smile className='size-4 text-neutral-400' fill='white' />
 			</div>
+			{imageUrl && (
+				<a className='max-w-sm mb-1' href={imageUrl} target='_blank'>
+					<img src={imageUrl} className='object-contain rounded-lg' />
+				</a>
+			)}
 			<p className='font-thin pr-10 pb-1'>{content}</p>
 			<div className='absolute top-0 right-2 z-1 '>
 				<MessageDropdown

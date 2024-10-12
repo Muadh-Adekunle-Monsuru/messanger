@@ -24,7 +24,7 @@ export default defineSchema({
 				messages: v.array(
 					v.object({
 						messageId: v.string(),
-						content: v.string(),
+						content: v.optional(v.string()),
 						sender: v.string(),
 						date: v.string(),
 						seen: v.boolean(),

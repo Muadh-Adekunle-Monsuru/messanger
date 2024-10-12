@@ -1,12 +1,15 @@
 'use client';
 import React, { FormEvent, KeyboardEvent, useState } from 'react';
 import { Input } from './ui/input';
-import { Plus, SendHorizonal, Smile } from 'lucide-react';
+import { Image, Plus, SendHorizonal, Smile } from 'lucide-react';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Button } from './ui/button';
 import { friendDataType } from './ChatHeader';
 import { nanoid } from 'nanoid';
+import EmojiPicker, { Emoji, EmojiClickData } from 'emoji-picker-react';
+import InputBarDialog from './InputBarDialog';
+import { CldUploadWidget } from 'next-cloudinary';
 
 export default function ChatInputBar({
 	userId,
@@ -19,6 +22,8 @@ export default function ChatInputBar({
 }) {
 	const sendMessage = useMutation(api.actions.sendMessage);
 	const [message, setMessage] = useState('');
+	const [showEmoji, setShowEmoji] = useState(false);
+	const [imageUrl, setImageUrl] = useState('');
 
 	const handleSubmit = async (e?: FormEvent) => {
 		if (e) {
@@ -39,10 +44,12 @@ export default function ChatInputBar({
 					deleted: false,
 					seen: false,
 					sender: userId,
+					imageUrl,
 				},
 			},
 		});
 		setMessage('');
+		setImageUrl('');
 	};
 
 	const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -58,21 +65,60 @@ export default function ChatInputBar({
 			}
 		}
 	};
+
+	const addEmoji = (emojiData: EmojiClickData, event: MouseEvent) => {
+		setMessage((prev) => prev + emojiData.emoji);
+	};
 	return (
-		<div className='w-full  bg-neutral-100 shadow-sm sticky bottom-0 left-0 right-0'>
+		<div className='w-full  bg-neutral-100 shadow-sm sticky bottom-0 left-0 right-0 '>
 			<form
 				className='p-3 flex items-center justify-between gap-2'
 				onSubmit={handleSubmit}
 			>
-				<Smile className='size-6 text-neutral-500 cursor-pointer' />
-				<Plus className='size-6 text-neutral-500 cursor-pointer' />
-				{/* <input
-					placeholder='Type a message'
-					className='w-full focus:outline-none p-2 border rounded-md'
-					value={message}
-					onChange={(e) => setMessage(e.target.value)}
-					
-				/> */}
+				{imageUrl && (
+					<div className='absolute bottom-14 left-5 z-[99999] shadow-lg rounded-xl'>
+						<img
+							src={imageUrl}
+							className='size-32 border-4 rounded-xl border-white'
+						/>
+					</div>
+				)}
+				<div
+					className='absolute bottom-20 left-5 z-[99999] shadow-lg'
+					onBlur={() => {
+						setShowEmoji(false);
+					}}
+				>
+					<EmojiPicker
+						open={showEmoji}
+						height={300}
+						width={250}
+						className=''
+						previewConfig={{ showPreview: false }}
+						onEmojiClick={addEmoji}
+					/>
+				</div>
+				<div className='cursor-pointer hover:bg-neutral-200 rounded-md p-1 transition-colors'>
+					<Smile
+						className='size-6 text-neutral-500'
+						onClick={() => setShowEmoji(true)}
+					/>
+				</div>
+				<CldUploadWidget
+					uploadPreset='damkxve6'
+					onSuccess={(result: any, { widget }) => {
+						setImageUrl(result.info?.secure_url);
+					}}
+					options={{ maxFiles: 1 }}
+				>
+					{({ open }) => {
+						return (
+							<div onClick={() => open?.()}>
+								<Image className='size-6 cursor-pointer text-neutral-500' />
+							</div>
+						);
+					}}
+				</CldUploadWidget>
 				<textarea
 					placeholder='Type a message'
 					className='w-full focus:outline-none p-2 border rounded-md h-10'
