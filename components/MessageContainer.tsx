@@ -84,7 +84,7 @@ export default function MessageContainer({
 
 			<p className='font-thin pr-10 pb-1'>
 				{deleted ? (
-					<p className='italic text-xs'>This message has been deleted</p>
+					<p className='italic text-xs'>This message has bedeleted</p>
 				) : (
 					content
 				)}
