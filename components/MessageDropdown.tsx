@@ -10,6 +10,7 @@ import {
 import { ChevronDown } from 'lucide-react';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
+import { useDataStore } from '@/store/store';
 
 export default function MessageDropdown({
 	friendId,
@@ -17,12 +18,16 @@ export default function MessageDropdown({
 	userId,
 	starred,
 	showReaction,
+	content,
+	imageURL,
 }: {
 	friendId: string;
 	messageId: string;
 	userId: string;
 	starred?: boolean;
 	showReaction: Dispatch<SetStateAction<boolean>>;
+	content?: string;
+	imageURL?: string;
 }) {
 	const setStar = useMutation(api.actions.starMessage);
 	const deleteMessage = useMutation(api.actions.deleteMessage);
@@ -32,13 +37,20 @@ export default function MessageDropdown({
 	const handleDelete = async () => {
 		await deleteMessage({ friendId, messageId, userId });
 	};
+	const setReply = useDataStore((state) => state.setDataSore);
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger className='opacity-0 group-hover:opacity-75 transition-opacity outline-none'>
 				<ChevronDown className='size-5 cursor-pointer text-muted-foreground' />
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
-				<DropdownMenuItem>Reply</DropdownMenuItem>
+				<DropdownMenuItem
+					onClick={() =>
+						setReply({ content: content || '', messageId, imageURL })
+					}
+				>
+					Reply
+				</DropdownMenuItem>
 				<DropdownMenuItem onClick={() => showReaction((prev) => !prev)}>
 					React
 				</DropdownMenuItem>

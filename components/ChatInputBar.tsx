@@ -83,6 +83,9 @@ export default function ChatInputBar({
 	};
 	return (
 		<div className='w-full  bg-neutral-100 shadow-sm sticky bottom-0 left-0 right-0 '>
+			<div className='absolute top-0 left-0 w-full p-5 border bg-neutral-300'>
+				hello
+			</div>
 			<form
 				className='p-3 flex items-center justify-between gap-2'
 				onSubmit={handleSubmit}

@@ -1,8 +1,6 @@
 'use client';
 import MessageContainer from '@/components/MessageContainer';
 import { Loader2 } from 'lucide-react';
-import { redirect } from 'next/navigation';
-import React from 'react';
 
 export type ChatType = {
 	friendUserName: string;
@@ -18,6 +16,11 @@ export type ChatType = {
 		deleted: boolean;
 		starred?: boolean | undefined;
 		emoji?: string | undefined;
+		replyingTo?: {
+			messageId: string;
+			content: string;
+			imageURL?: string;
+		};
 	}[];
 };
 export default function ChatBody({

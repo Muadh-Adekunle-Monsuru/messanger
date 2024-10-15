@@ -1,20 +1,11 @@
 'use client';
-import { formatTime } from '@/lib/server-functions';
-import { CheckCheck, Smile, Star } from 'lucide-react';
-import MessageDropdown from './MessageDropdown';
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { ChevronDown } from 'lucide-react';
-import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
-import { useState } from 'react';
-import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
+import { formatTime } from '@/lib/server-functions';
+import { useMutation } from 'convex/react';
+import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
+import { CheckCheck, Smile, Star } from 'lucide-react';
+import { useState } from 'react';
+import MessageDropdown from './MessageDropdown';
 
 export type MessageType = {
 	imageUrl?: string | undefined;
@@ -26,6 +17,11 @@ export type MessageType = {
 	deleted: boolean;
 	starred?: boolean | undefined;
 	emoji?: string | undefined;
+	replyingTo?: {
+		messageId: string;
+		content: string;
+		imageURL?: string;
+	};
 };
 export default function MessageContainer({
 	message,
@@ -46,6 +42,7 @@ export default function MessageContainer({
 		imageUrl,
 		starred,
 		emoji,
+		replyingTo,
 	} = message;
 
 	const [showReaction, setShowReaction] = useState(false);
@@ -84,7 +81,7 @@ export default function MessageContainer({
 
 			<p className='font-thin pr-10 pb-1'>
 				{deleted ? (
-					<p className='italic text-xs'>This message has bedeleted</p>
+					<p className='italic text-xs'>This message has deleted</p>
 				) : (
 					content
 				)}
@@ -97,6 +94,8 @@ export default function MessageContainer({
 					messageId={messageId}
 					starred={starred}
 					showReaction={setShowReaction}
+					content={content}
+					imageURL={imageUrl}
 				/>
 			</div>
 

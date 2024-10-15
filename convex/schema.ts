@@ -34,6 +34,13 @@ export default defineSchema({
 						imageUrl: v.optional(v.string()),
 						starred: v.optional(v.boolean()),
 						emoji: v.optional(v.string()),
+						replyingTo: v.optional(
+							v.object({
+								messageId: v.string(),
+								content: v.string(),
+								imageURL: v.string(),
+							})
+						),
 					})
 				),
 			})
