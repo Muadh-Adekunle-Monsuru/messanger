@@ -34,8 +34,7 @@ export default function ChatHeader({
 						<div className='flex flex-col'>
 							<p className='font-medium'>{friendData.userName}</p>
 							<p className='text-[0.6rem] text-muted-foreground'>
-								{/* {friendData.isOnline && 'online'} */}
-								{isTyping ? 'Typing...' : friendData.isOnline ? 'Online' : ''}
+								{friendData.isOnline && 'online'}
 							</p>
 						</div>
 					</div>

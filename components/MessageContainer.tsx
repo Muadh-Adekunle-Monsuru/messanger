@@ -4,8 +4,10 @@ import { formatTime } from '@/lib/server-functions';
 import { useMutation } from 'convex/react';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { CheckCheck, Smile, Star } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MessageDropdown from './MessageDropdown';
+import { useInView } from 'react-intersection-observer';
+import Head from 'next/head';
 
 export type MessageType = {
 	imageUrl?: string | undefined;
@@ -24,6 +26,7 @@ export type MessageType = {
 		senderId: string;
 	};
 };
+
 export default function MessageContainer({
 	message,
 	userId,
@@ -45,9 +48,10 @@ export default function MessageContainer({
 		emoji,
 		replyingTo,
 	} = message;
-
+	const setSeen = useMutation(api.actions.setSeen);
 	const [showReaction, setShowReaction] = useState(false);
 	const reactToMessage = useMutation(api.actions.reactMessage);
+
 	const handleReaction = async (
 		emojiData: EmojiClickData,
 		event: MouseEvent
@@ -60,10 +64,29 @@ export default function MessageContainer({
 			messageId,
 		});
 	};
+	const { ref, inView, entry } = useInView({
+		/* Optional options */
+		threshold: 0,
+		triggerOnce: true,
+	});
+
+	useEffect(() => {
+		if (!userId) return;
+		if (userId == sender) return;
+		if (seen == true) return;
+		if (!inView) return;
+		setSeen({ friendId, messageId, userId });
+	}, [userId, messageId, friendId, inView]);
+
+	// useEffect(() => {
+	// 	if (inView) return;
+	// 	console.log(`${content} is in view`);
+	// }, [inView]);
+
 	return (
 		<div
-			className={`rounded-lg bg-white ${emoji ? 'my-2' : 'my-1'}  p-2 w-fit ${userId == sender && 'ml-auto bg-blue-200'} shadow-sm group relative max-w-sm ${messageId}`}
-			key={messageId}
+			className={`rounded-lg bg-white ${emoji ? 'my-2' : 'my-1'}  p-2 w-fit ${userId == sender && 'ml-auto bg-blue-200'} shadow-sm group relative max-w-sm `}
+			ref={ref}
 		>
 			<div
 				className={`size-6 bg-neutral-200/20 rounded-full flex items-center justify-center absolute  ${userId == sender && '-left-7'} -right-7 top-[35%] cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity`}
@@ -131,13 +154,19 @@ export default function MessageContainer({
 					allowExpandReactions={false}
 				/>
 			</div>
+
 			<div className='absolute bottom-0 right-1 text-[0.6rem] text-neutral-500 font-thin flex gap-1 items-center'>
 				{starred && <Star className='size-2 ' fill='black' />}
 				<span>{formatTime(date)}</span>
 				<span className={` ${userId !== sender && 'hidden'}`}>
-					<CheckCheck className='size-3 text-blue-400' />
+					<CheckCheck
+						className={`size-3 ${seen ? 'text-blue-400' : 'text-neutral-400'}`}
+					/>
 				</span>
 			</div>
+			<Head>
+				<title>Unread message!</title>
+			</Head>
 			{emoji && (
 				<p className='absolute right-0 -bottom-5 rounded-full bg-white p-1 text-xs z-0'>
 					{emoji}

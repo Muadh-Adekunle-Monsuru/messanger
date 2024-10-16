@@ -1,7 +1,8 @@
 'use client';
 import MessageContainer from '@/components/MessageContainer';
 import { Loader2 } from 'lucide-react';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 export type ChatType = {
 	friendUserName: string;
@@ -39,7 +40,6 @@ export default function ChatBody({
 			</div>
 		);
 
-	const messageRef = useRef({});
 	return (
 		<div className='mt-auto w-full p-3 md:pr-20'>
 			{chat !== 'no user' &&

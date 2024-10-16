@@ -482,3 +482,53 @@ export const deleteMessage = mutation({
 		await ctx.db.patch(friend._id, { chats: friend.chats });
 	},
 });
+
+export const setSeen = mutation({
+	args: {
+		userId: v.string(),
+		friendId: v.string(),
+		messageId: v.string(),
+	},
+	handler: async (ctx, args) => {
+		const { friendId, messageId, userId } = args;
+
+		const user = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), userId))
+			.first();
+
+		if (!user) return;
+
+		const ChatIndex = user.chats?.findIndex(
+			(chat) => chat.friendUserId == friendId
+		);
+
+		const MessageIndex = user.chats[ChatIndex].messages.findIndex(
+			(message) => message.messageId == messageId
+		);
+
+		user.chats[ChatIndex].messages[MessageIndex].seen = true;
+
+		await ctx.db.patch(user._id, { chats: user.chats });
+
+		//Updating friends database with the same message
+
+		const friend = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), friendId))
+			.first();
+
+		if (!friend) return;
+
+		const friendChatIndex = friend.chats?.findIndex(
+			(chat) => chat.friendUserId == args.userId
+		);
+
+		const friendMessageIndex = friend.chats[friendChatIndex].messages.findIndex(
+			(message) => message.messageId == messageId
+		);
+
+		friend.chats[friendChatIndex].messages[friendMessageIndex].seen = true;
+		await ctx.db.patch(friend._id, { chats: friend.chats });
+	},
+});

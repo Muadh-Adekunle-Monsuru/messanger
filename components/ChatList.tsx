@@ -44,23 +44,39 @@ export default function ChatList() {
 											<p className='font-medium text-lg'>
 												{chat.friendUserName}
 											</p>
-											<p className='text-[0.7rem] text-neutral-500 font-thin'>
-												{chat.messages.length > 0 &&
-													formatTime(
-														chat.messages[chat.messages.length - 1].date
+											<div className='flex flex-col items-center'>
+												<p className='text-[0.7rem] text-neutral-500 font-thin'>
+													{chat.messages.length > 0 &&
+														formatTime(
+															chat.messages[chat.messages.length - 1].date
+														)}
+												</p>
+												{user &&
+													user.id !==
+														chat.messages[chat.messages.length - 1].sender &&
+													chat.messages.length > 0 &&
+													!chat.messages[chat.messages.length - 1].seen && (
+														<>
+															<div
+																className={`size-3 rounded-full bg-blue-500 `}
+															/>
+														</>
 													)}
-											</p>
+											</div>
 										</div>
 										<div className='font-light text-sm text-muted-foreground flex items-center gap-1'>
 											<span
 												className={` ${user && chat.messages.length > 0 && user.id !== chat.messages[chat.messages.length - 1].sender && 'hidden'}  ${chat.messages.length == 0 && 'hidden'}`}
 											>
-												<CheckCheck className='size-4 text-blue-400' />
+												<CheckCheck
+													className={`size-4 ${chat.messages.length > 0 && chat.messages[chat.messages.length - 1].seen ? 'text-blue-400' : 'text-neutral-400'}`}
+												/>
 											</span>
 											<span>
-												{chat.messages[chat.messages.length - 1].imageUrl && (
-													<Image className='size-4' />
-												)}
+												{chat.messages.length > 0 &&
+													chat.messages[chat.messages.length - 1].imageUrl && (
+														<Image className='size-4' />
+													)}
 											</span>
 											<span className='line-clamp-1'>
 												{chat.messages.length > 0 &&
