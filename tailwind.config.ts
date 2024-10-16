@@ -64,6 +64,7 @@ const config: Config = {
 			nocompatible: true,
 			preferredStrategy: 'pseudoelements',
 		}),
+		require('@tailwindcss/typography'),
 	],
 };
 export default config;

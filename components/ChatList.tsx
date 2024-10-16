@@ -6,6 +6,7 @@ import { useQuery } from 'convex/react';
 import { CheckCheck, Image, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import ChatListContextMenu from './ContextMenu';
+import AISidebar from '@/app/(root)/chats/ai/AISidebar';
 
 export default function ChatList() {
 	const { user } = useUser();
@@ -22,7 +23,8 @@ export default function ChatList() {
 					Start a conversation
 				</p>
 			)}
-			<div className='h-full overflow-y-auto grid divide-y  scrollbar scrollbar-w-1 scrollbar-thumb-neutral-700 scrollbar-track-transparent scrollbar-thumb-rounded-full '>
+			<div className='h-full overflow-y-auto flex flex-col divide-y scrollbar scrollbar-w-1 scrollbar-thumb-neutral-700 scrollbar-track-transparent scrollbar-thumb-rounded-full '>
+				<AISidebar />
 				{chats &&
 					chats.map((chat) => (
 						<ChatListContextMenu
@@ -56,11 +58,9 @@ export default function ChatList() {
 														chat.messages[chat.messages.length - 1].sender &&
 													chat.messages.length > 0 &&
 													!chat.messages[chat.messages.length - 1].seen && (
-														<>
-															<div
-																className={`size-3 rounded-full bg-blue-500 `}
-															/>
-														</>
+														<div
+															className={`size-3 rounded-full bg-blue-500 animate-pulse`}
+														/>
 													)}
 											</div>
 										</div>

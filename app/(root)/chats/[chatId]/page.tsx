@@ -6,6 +6,7 @@ import { useUser } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import { redirect } from 'next/navigation';
 import ChatBody from '../components/ChatBody';
+import Head from 'next/head';
 
 export default function Page({ params }: { params: { chatId: string } }) {
 	const { user } = useUser();

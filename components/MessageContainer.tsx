@@ -85,7 +85,7 @@ export default function MessageContainer({
 
 	return (
 		<div
-			className={`rounded-lg bg-white ${emoji ? 'my-2' : 'my-1'}  p-2 w-fit ${userId == sender && 'ml-auto bg-blue-200'} shadow-sm group relative max-w-sm `}
+			className={`rounded-lg  ${emoji ? 'my-2' : 'my-1'}  p-2 w-fit ${userId == sender ? 'ml-auto bg-blue-100' : 'bg-white'} shadow-sm group relative max-w-sm `}
 			ref={ref}
 		>
 			<div
@@ -164,9 +164,7 @@ export default function MessageContainer({
 					/>
 				</span>
 			</div>
-			<Head>
-				<title>Unread message!</title>
-			</Head>
+
 			{emoji && (
 				<p className='absolute right-0 -bottom-5 rounded-full bg-white p-1 text-xs z-0'>
 					{emoji}
