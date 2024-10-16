@@ -21,6 +21,7 @@ export type MessageType = {
 		messageId: string;
 		content: string;
 		imageURL?: string;
+		senderId: string;
 	};
 };
 export default function MessageContainer({
@@ -52,7 +53,6 @@ export default function MessageContainer({
 		event: MouseEvent
 	) => {
 		event.stopPropagation();
-		console.log('picked', emojiData);
 		await reactToMessage({
 			userId: userId || '',
 			friendUserId: friendId,
@@ -62,7 +62,8 @@ export default function MessageContainer({
 	};
 	return (
 		<div
-			className={`rounded-lg bg-white ${emoji ? 'my-2' : 'my-1'}  p-2 w-fit ${userId == sender && 'ml-auto bg-blue-50'} shadow-sm group relative max-w-sm`}
+			className={`rounded-lg bg-white ${emoji ? 'my-2' : 'my-1'}  p-2 w-fit ${userId == sender && 'ml-auto bg-blue-200'} shadow-sm group relative max-w-sm ${messageId}`}
+			key={messageId}
 		>
 			<div
 				className={`size-6 bg-neutral-200/20 rounded-full flex items-center justify-center absolute  ${userId == sender && '-left-7'} -right-7 top-[35%] cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity`}
@@ -77,6 +78,20 @@ export default function MessageContainer({
 				<a className='max-w-sm mb-1' href={imageUrl} target='_blank'>
 					<img src={imageUrl} className='object-contain rounded-lg' />
 				</a>
+			)}
+
+			{(replyingTo?.content || replyingTo?.imageURL) && (
+				<div className='py-2 bg-blue-50 rounded-lg p-1 flex gap-1 items-center'>
+					<div
+						className={`h-full border-4 rounded-lg ${replyingTo.senderId == userId ? 'border-blue-500' : 'border-purple-400'}`}
+					/>
+					<div className='flex gap-1 items-center'>
+						<p className='line-clamp-2 select-none'>{replyingTo.content}</p>
+						{replyingTo.imageURL && (
+							<img src={replyingTo.imageURL} className='size-14' />
+						)}
+					</div>
+				</div>
 			)}
 
 			<p className='font-thin pr-10 pb-1'>
@@ -96,6 +111,7 @@ export default function MessageContainer({
 					showReaction={setShowReaction}
 					content={content}
 					imageURL={imageUrl}
+					senderId={sender}
 				/>
 			</div>
 
@@ -123,7 +139,7 @@ export default function MessageContainer({
 				</span>
 			</div>
 			{emoji && (
-				<p className='absolute right-0 -bottom-5 rounded-full bg-white p-1 text-xs z-10'>
+				<p className='absolute right-0 -bottom-5 rounded-full bg-white p-1 text-xs z-0'>
 					{emoji}
 				</p>
 			)}

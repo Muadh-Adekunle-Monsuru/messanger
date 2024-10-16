@@ -1,6 +1,7 @@
 'use client';
 import MessageContainer from '@/components/MessageContainer';
 import { Loader2 } from 'lucide-react';
+import { useRef } from 'react';
 
 export type ChatType = {
 	friendUserName: string;
@@ -20,6 +21,7 @@ export type ChatType = {
 			messageId: string;
 			content: string;
 			imageURL?: string;
+			senderId: string;
 		};
 	}[];
 };
@@ -37,6 +39,7 @@ export default function ChatBody({
 			</div>
 		);
 
+	const messageRef = useRef({});
 	return (
 		<div className='mt-auto w-full p-3 md:pr-20'>
 			{chat !== 'no user' &&

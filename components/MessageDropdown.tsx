@@ -20,6 +20,7 @@ export default function MessageDropdown({
 	showReaction,
 	content,
 	imageURL,
+	senderId,
 }: {
 	friendId: string;
 	messageId: string;
@@ -28,6 +29,7 @@ export default function MessageDropdown({
 	showReaction: Dispatch<SetStateAction<boolean>>;
 	content?: string;
 	imageURL?: string;
+	senderId: string;
 }) {
 	const setStar = useMutation(api.actions.starMessage);
 	const deleteMessage = useMutation(api.actions.deleteMessage);
@@ -46,7 +48,7 @@ export default function MessageDropdown({
 			<DropdownMenuContent>
 				<DropdownMenuItem
 					onClick={() =>
-						setReply({ content: content || '', messageId, imageURL })
+						setReply({ content: content || '', messageId, imageURL, senderId })
 					}
 				>
 					Reply

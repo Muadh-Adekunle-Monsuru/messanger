@@ -137,6 +137,14 @@ export const sendMessage = mutation({
 				seen: v.boolean(),
 				deleted: v.boolean(),
 				imageUrl: v.optional(v.string()),
+				replyingTo: v.optional(
+					v.object({
+						messageId: v.string(),
+						content: v.string(),
+						imageURL: v.string(),
+						senderId: v.string(),
+					})
+				),
 			}),
 		}),
 	},

@@ -1,15 +1,14 @@
 'use client';
-import React, { FormEvent, KeyboardEvent, useRef, useState } from 'react';
-import { Input } from './ui/input';
-import { Image, Plus, SendHorizonal, Smile } from 'lucide-react';
-import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
-import { Button } from './ui/button';
-import { friendDataType } from './ChatHeader';
+import { useDataStore } from '@/store/store';
+import { useMutation } from 'convex/react';
+import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
+import { CircleX, Image, SendHorizonal, Smile } from 'lucide-react';
 import { nanoid } from 'nanoid';
-import EmojiPicker, { Emoji, EmojiClickData } from 'emoji-picker-react';
-import InputBarDialog from './InputBarDialog';
 import { CldUploadWidget } from 'next-cloudinary';
+import { FormEvent, KeyboardEvent, useRef, useState } from 'react';
+import { friendDataType } from './ChatHeader';
+import { Button } from './ui/button';
 
 export default function ChatInputBar({
 	userId,
@@ -27,6 +26,10 @@ export default function ChatInputBar({
 
 	const setTyping = useMutation(api.actions.setTyping);
 
+	const content = useDataStore((state) => state.content);
+	const imageURL = useDataStore((state) => state.imageURL);
+	const senderId = useDataStore((state) => state.senderId);
+	const resetReplying = useDataStore((state) => state.setDataSore);
 	const timeoutId = useRef<number | null>(null);
 	const handleSubmit = async (e?: FormEvent) => {
 		if (e) {
@@ -48,11 +51,18 @@ export default function ChatInputBar({
 					seen: false,
 					sender: userId,
 					imageUrl,
+					replyingTo: {
+						content,
+						imageURL: imageURL || '',
+						messageId: senderId,
+						senderId,
+					},
 				},
 			},
 		});
 		setMessage('');
 		setImageUrl('');
+		resetReplying({ content: '', messageId: '', senderId: '', imageURL: '' });
 	};
 
 	const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -81,11 +91,37 @@ export default function ChatInputBar({
 	const addEmoji = (emojiData: EmojiClickData, event: MouseEvent) => {
 		setMessage((prev) => prev + emojiData.emoji);
 	};
+
 	return (
 		<div className='w-full  bg-neutral-100 shadow-sm sticky bottom-0 left-0 right-0 '>
-			<div className='absolute top-0 left-0 w-full p-5 border bg-neutral-300'>
-				hello
-			</div>
+			{(content || imageURL) && (
+				<div className='absolute bottom-14 left-0 w-full p-2 border backdrop-blur-sm z-20'>
+					<div className='flex gap-2 items-center mx-14'>
+						<div
+							className={`h-full border-4 rounded-lg ${senderId == userId ? 'border-blue-500' : 'border-purple-400'}`}
+						/>
+						<div className='flex items-center justify-between w-full'>
+							<p className='line-clamp-1 max-w-lg text-neutral-500'>
+								{content}
+							</p>
+							{imageURL && <img src={imageURL} className='size-14' />}
+						</div>
+						<div>
+							<CircleX
+								className='size-7 text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer'
+								onClick={() =>
+									resetReplying({
+										content: '',
+										messageId: '',
+										senderId: '',
+										imageURL: '',
+									})
+								}
+							/>
+						</div>
+					</div>
+				</div>
+			)}
 			<form
 				className='p-3 flex items-center justify-between gap-2'
 				onSubmit={handleSubmit}

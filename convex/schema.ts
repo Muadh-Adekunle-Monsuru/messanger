@@ -39,6 +39,7 @@ export default defineSchema({
 								messageId: v.string(),
 								content: v.string(),
 								imageURL: v.string(),
+								senderId: v.string(),
 							})
 						),
 					})
