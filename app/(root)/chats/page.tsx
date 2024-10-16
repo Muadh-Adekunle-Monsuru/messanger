@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function Page() {
 	return (
-		<div className='h-full w-full largesidebar-background flex flex-col gap-4 items-center justify-center relative blur-[0.3px]'>
+		<div className='h-full hidden md:w-full largesidebar-background md:flex flex-col gap-4 items-center justify-center relative blur-[0.3px]'>
 			<Image
 				src={'/logo-dark.svg'}
 				alt='logo dark'

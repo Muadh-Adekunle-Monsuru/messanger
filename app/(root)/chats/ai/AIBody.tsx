@@ -29,7 +29,7 @@ export default function AIBody() {
 				</div>
 			)}
 
-			<form onSubmit={handleSubmit} className='absolute bottom-0 w-full'>
+			<form onSubmit={handleSubmit} className='absolute bottom-0 w-full px-5'>
 				<input
 					className=' w-full p-2 mb-8 border border-gray-300 rounded-full shadow-xl'
 					value={input}

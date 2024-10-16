@@ -1,3 +1,4 @@
+'use client';
 import {
 	EllipsisVertical,
 	MessageCircle,
@@ -15,11 +16,16 @@ import { UserButton } from '@clerk/nextjs';
 import { Skeleton } from '@/components/ui/skeleton';
 import ChatList from '@/components/ChatList';
 import SidebarMenu from '@/components/SidebarMenu';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Sidebar({ user }: { user: User | undefined | null }) {
+	const pathname = usePathname();
 	if (!user)
 		return (
-			<div className='h-full w-0 md:w-1/3'>
+			<div
+				className={`h-full w-full md:w-1/3 ${pathname !== '/chats' && 'hidden md:flex'}`}
+			>
 				<div className='p-3 flex flex-col gap-4'>
 					<div className='flex items-center justify-between'>
 						<h2 className='font-bold text-xl'>Chats</h2>
@@ -41,10 +47,14 @@ export default function Sidebar({ user }: { user: User | undefined | null }) {
 		);
 	const userData = useQuery(api.actions.getUserData, { userId: user.id });
 	return (
-		<div className='h-full max-h-screen w-0 md:w-1/3 '>
-			<div className='h-full py-3 flex flex-col gap-4'>
+		<div
+			className={`h-full max-h-screen w-full md:w-1/3 ${pathname !== '/chats' && 'hidden md:flex'}`}
+		>
+			<div className='h-full py-3 flex flex-col gap-4 w-full'>
 				<div className='px-3 flex items-center justify-between'>
-					<h2 className='font-bold text-xl'>Chats</h2>
+					<h2 className='font-bold text-xl'>
+						<Link href={'/chats'}>Chats </Link>
+					</h2>
 					<div className='flex gap-3 items-center'>
 						<AddFriendDialog userId={user.id} />
 						<SidebarMenu />
