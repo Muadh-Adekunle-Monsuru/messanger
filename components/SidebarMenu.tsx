@@ -1,14 +1,11 @@
-import React from 'react';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
+	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { EllipsisVertical } from 'lucide-react';
 import { SignOutButton } from '@clerk/nextjs';
+import { EllipsisVertical } from 'lucide-react';
 
 export default function SidebarMenu() {
 	return (

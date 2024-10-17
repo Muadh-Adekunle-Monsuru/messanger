@@ -7,10 +7,8 @@ export type FriendData = {
 	imageUrl: string;
 };
 export default function FriendsList({
-	userId,
 	friendList,
 }: {
-	userId: string;
 	friendList: FriendData[] | undefined;
 }) {
 	return (

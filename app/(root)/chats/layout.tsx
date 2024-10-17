@@ -26,7 +26,7 @@ export default function PageLayout({
 			});
 			setOnline({ userId: user.id });
 		}
-	}, [isLoaded, isSignedIn, user]);
+	}, [isLoaded, isSignedIn, user,setOnline,createUser]);
 
 	useEffect(() => {
 		const handleClose = () => {

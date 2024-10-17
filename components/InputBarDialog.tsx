@@ -1,19 +1,14 @@
 'use client';
-import React, { useState } from 'react';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { File, Image, Plus } from 'lucide-react';
-import UploadImageDialog from './UploadImageDialog';
+import { File, Plus } from 'lucide-react';
 import { CldUploadWidget } from 'next-cloudinary';
 
 export default function InputBarDialog() {
-	const [openImageUpload, setOpenImageUpload] = useState<boolean>(false);
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger className='outline-none'>

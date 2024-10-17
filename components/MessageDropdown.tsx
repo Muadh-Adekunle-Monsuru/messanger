@@ -1,16 +1,14 @@
-import React, { Dispatch, SetStateAction } from 'react';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { ChevronDown } from 'lucide-react';
-import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { useDataStore } from '@/store/store';
+import { useMutation } from 'convex/react';
+import { ChevronDown } from 'lucide-react';
+import { Dispatch, SetStateAction } from 'react';
 
 export default function MessageDropdown({
 	friendId,

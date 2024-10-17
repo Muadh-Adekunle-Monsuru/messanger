@@ -13,6 +13,9 @@ import FriendsList from './FriendsList';
 
 export default function Sidebar({ user }: { user: User | undefined | null }) {
 	const pathname = usePathname();
+	const userData = useQuery(api.actions.getUserData, {
+		userId: user?.id || '',
+	});
 	if (!user)
 		return (
 			<div
@@ -37,7 +40,6 @@ export default function Sidebar({ user }: { user: User | undefined | null }) {
 				</div>
 			</div>
 		);
-	const userData = useQuery(api.actions.getUserData, { userId: user.id });
 	return (
 		<div
 			className={`h-full max-h-screen w-full md:w-1/3 ${pathname !== '/chats' && 'hidden md:flex'}`}
@@ -53,7 +55,7 @@ export default function Sidebar({ user }: { user: User | undefined | null }) {
 					</div>
 				</div>
 				{/* <SearchBar /> */}
-				<FriendsList userId={user.id} friendList={userData?.friendsList} />
+				<FriendsList friendList={userData?.friendsList} />
 				<ChatList />
 			</div>
 		</div>

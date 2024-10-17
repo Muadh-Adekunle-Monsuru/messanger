@@ -6,7 +6,6 @@ import { useUser } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import { redirect } from 'next/navigation';
 import ChatBody from '../components/ChatBody';
-import Head from 'next/head';
 
 export default function Page({ params }: { params: { chatId: string } }) {
 	const { user } = useUser();
@@ -25,11 +24,7 @@ export default function Page({ params }: { params: { chatId: string } }) {
 	}
 	return (
 		<div className='h-full w-full largesidebar-background flex flex-col gap-4 items-center blur-[0.3px] overflow-x-hidden overflow-y-auto relative   scrollbar scrollbar-w-1 scrollbar-thumb-neutral-700 scrollbar-track-transparent scrollbar-thumb-rounded-full '>
-			<ChatHeader
-				friendData={friendData}
-				userId={user?.id}
-				isTyping={chat !== 'no user' && chat?.isTyping}
-			/>
+			<ChatHeader friendData={friendData} userId={user?.id} />
 			<ChatBody chat={chat} userId={user?.id} />
 			<ChatInputBar
 				userId={user?.id}

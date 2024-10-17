@@ -1,15 +1,13 @@
 'use client';
-import { CldUploadWidget } from 'next-cloudinary';
-import React, { Dispatch, SetStateAction } from 'react';
 import {
 	Dialog,
 	DialogContent,
-	DialogDescription,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
 } from '@/components/ui/dialog';
 import { Image } from 'lucide-react';
+import { CldUploadWidget } from 'next-cloudinary';
+import { Dispatch, SetStateAction } from 'react';
 
 export default function UploadImageDialog({
 	isOpen,

@@ -19,8 +19,6 @@ export default function ChatInputBar({
 	friendData?: friendDataType | 'no user';
 	friendId: string;
 }) {
-	if (friendData == 'no user') return;
-
 	const sendMessage = useMutation(api.actions.sendMessage);
 	const [message, setMessage] = useState('');
 	const [showEmoji, setShowEmoji] = useState(false);
@@ -33,6 +31,8 @@ export default function ChatInputBar({
 	const senderId = useDataStore((state) => state.senderId);
 	const resetReplying = useDataStore((state) => state.setDataSore);
 	const timeoutId = useRef<number | null>(null);
+
+	if (friendData == 'no user') return;
 	const handleSubmit = async (e?: FormEvent) => {
 		if (e) {
 			e.preventDefault();
@@ -90,7 +90,7 @@ export default function ChatInputBar({
 		}
 	};
 
-	const addEmoji = (emojiData: EmojiClickData, event: MouseEvent) => {
+	const addEmoji = (emojiData: EmojiClickData) => {
 		setMessage((prev) => prev + emojiData.emoji);
 	};
 
@@ -159,7 +159,7 @@ export default function ChatInputBar({
 				</div>
 				<CldUploadWidget
 					uploadPreset='damkxve6'
-					onSuccess={(result: any, { widget }) => {
+					onSuccess={(result: any) => {
 						setImageUrl(result.info?.secure_url);
 					}}
 					options={{ maxFiles: 1 }}

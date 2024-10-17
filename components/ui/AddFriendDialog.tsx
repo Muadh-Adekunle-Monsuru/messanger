@@ -1,5 +1,4 @@
 'use client';
-import React, { FormEvent, FormEventHandler, useState } from 'react';
 import {
 	Dialog,
 	DialogContent,
@@ -8,12 +7,13 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { MessageCirclePlus } from 'lucide-react';
-import { Input } from './input';
-import { Button } from './button';
-import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { useToast } from '@/hooks/use-toast';
+import { useMutation } from 'convex/react';
+import { MessageCirclePlus } from 'lucide-react';
+import { FormEvent, useState } from 'react';
+import { Button } from './button';
+import { Input } from './input';
 
 export default function AddFriendDialog({ userId }: { userId: string }) {
 	const { toast } = useToast();
@@ -29,6 +29,7 @@ export default function AddFriendDialog({ userId }: { userId: string }) {
 				title: 'Friend Added 🎉',
 			});
 		} catch (e) {
+			console.log(e);
 			toast({
 				title: `⚠️ Unable to add friend`,
 				description:
@@ -48,7 +49,7 @@ export default function AddFriendDialog({ userId }: { userId: string }) {
 				<DialogHeader>
 					<DialogTitle>Add a friend</DialogTitle>
 					<DialogDescription>
-						Enter your friend's Username or Email
+						Enter your friend&apos;s Username or Email
 					</DialogDescription>
 				</DialogHeader>
 				<form

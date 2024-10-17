@@ -5,9 +5,8 @@ import { useMutation } from 'convex/react';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { CheckCheck, Smile, Star } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import MessageDropdown from './MessageDropdown';
 import { useInView } from 'react-intersection-observer';
-import Head from 'next/head';
+import MessageDropdown from './MessageDropdown';
 
 export type MessageType = {
 	imageUrl?: string | undefined;
@@ -64,7 +63,7 @@ export default function MessageContainer({
 			messageId,
 		});
 	};
-	const { ref, inView, entry } = useInView({
+	const { ref, inView } = useInView({
 		/* Optional options */
 		threshold: 0,
 		triggerOnce: true,

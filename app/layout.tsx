@@ -1,15 +1,9 @@
+import { Toaster } from '@/components/ui/toaster';
+import { ConvexClientProvider } from '@/convex/ConvexClientProvider';
+import { ClerkProvider } from '@clerk/nextjs';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
-import {
-	ClerkProvider,
-	SignInButton,
-	SignedIn,
-	SignedOut,
-	UserButton,
-} from '@clerk/nextjs';
-import { ConvexClientProvider } from '@/convex/ConvexClientProvider';
-import { Toaster } from '@/components/ui/toaster';
 
 const geistSans = localFont({
 	src: './fonts/GeistVF.woff',

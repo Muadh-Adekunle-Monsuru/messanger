@@ -1,9 +1,8 @@
-import { ChevronLeft, EllipsisVertical } from 'lucide-react';
-import React from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ChevronLeft } from 'lucide-react';
 import Image from 'next/image';
-import ChatBodyMenu from './ChatBodyMenu';
 import Link from 'next/link';
+import ChatBodyMenu from './ChatBodyMenu';
 
 export type friendDataType = {
 	userName: string | undefined;
@@ -14,11 +13,9 @@ export type friendDataType = {
 export default function ChatHeader({
 	friendData,
 	userId,
-	isTyping,
 }: {
 	friendData?: friendDataType | undefined | 'no user';
 	userId?: string | null;
-	isTyping?: boolean | undefined | null;
 }) {
 	if (friendData == 'no user') {
 		return;

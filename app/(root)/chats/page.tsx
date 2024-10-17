@@ -15,7 +15,7 @@ export default function Page() {
 			<p className='font-bold text-3xl text-center'>Your World in One Chat</p>
 			<p className='max-w-lg text-center text-sm font-light text-neutral-700'>
 				Experience seamless messaging with real-time connections. Wherever you
-				are, whoever you're with, stay close with instant communication at your
+				are, whoever you&apos;re with, stay close with instant communication at your
 				fingertips.
 			</p>
 
