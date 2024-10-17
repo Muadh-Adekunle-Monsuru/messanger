@@ -16,10 +16,14 @@ export default function ChatHeader({
 	userId,
 	isTyping,
 }: {
-	friendData?: friendDataType | undefined;
+	friendData?: friendDataType | undefined | 'no user';
 	userId?: string | null;
-	isTyping?: boolean | undefined;
+	isTyping?: boolean | undefined | null;
 }) {
+	if (friendData == 'no user') {
+		return;
+	}
+
 	return (
 		<div className='w-full p-3 bg-neutral-50 shadow-sm sticky top-0 left-0 right-0 z-40'>
 			<div className='flex items-center gap-2'>

@@ -20,16 +20,15 @@ export default function Page({ params }: { params: { chatId: string } }) {
 		friendId: params.chatId,
 	});
 
-	if (chat == 'no user' || friendData == 'no user') {
+	if (chat == 'no user' && friendData == 'no user') {
 		redirect('/chats');
-		return;
 	}
 	return (
 		<div className='h-full w-full largesidebar-background flex flex-col gap-4 items-center blur-[0.3px] overflow-x-hidden overflow-y-auto relative   scrollbar scrollbar-w-1 scrollbar-thumb-neutral-700 scrollbar-track-transparent scrollbar-thumb-rounded-full '>
 			<ChatHeader
 				friendData={friendData}
 				userId={user?.id}
-				isTyping={chat?.isTyping}
+				isTyping={chat !== 'no user' && chat?.isTyping}
 			/>
 			<ChatBody chat={chat} userId={user?.id} />
 			<ChatInputBar

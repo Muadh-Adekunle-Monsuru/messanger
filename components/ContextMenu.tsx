@@ -1,14 +1,14 @@
 'use client';
-import React, { ReactNode } from 'react';
 import {
 	ContextMenu,
 	ContextMenuContent,
 	ContextMenuItem,
 	ContextMenuTrigger,
 } from '@/components/ui/context-menu';
-import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
-import { redirect, useRouter } from 'next/navigation';
+import { useMutation } from 'convex/react';
+import { useRouter } from 'next/navigation';
+import { ReactNode } from 'react';
 
 export default function ChatListContextMenu({
 	children,

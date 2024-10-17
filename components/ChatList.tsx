@@ -1,18 +1,21 @@
 'use client';
+import AISidebar from '@/app/(root)/chats/ai/AISidebar';
 import { api } from '@/convex/_generated/api';
 import { formatTime } from '@/lib/server-functions';
 import { useUser } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import { CheckCheck, Image, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import ChatListContextMenu from './ContextMenu';
-import AISidebar from '@/app/(root)/chats/ai/AISidebar';
 
 export default function ChatList() {
 	const { user } = useUser();
 	const chats = useQuery(api.actions.getAllChats, {
 		userId: user?.id || '',
 	});
+
+	const pathname = usePathname();
 
 	return (
 		<div className='h-full flex-1 '>
@@ -36,7 +39,9 @@ export default function ChatList() {
 								href={`/chats/${chat.friendUserId}`}
 								className=' last:mb-10 mr-3 rounded-r-sm'
 							>
-								<div className='w-full p-3 flex items-center gap-2 hover:bg-neutral-100 transition-colors'>
+								<div
+									className={`w-full p-3 flex items-center gap-2 hover:bg-neutral-100 transition-colors ${pathname == '/chats/' + chat.friendUserId && 'bg-neutral-100'}`}
+								>
 									<img
 										src={chat.friendImageUrl}
 										className='size-10 rounded-full cursor-pointer shrink-0'

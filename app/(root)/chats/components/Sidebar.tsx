@@ -1,23 +1,15 @@
 'use client';
-import {
-	EllipsisVertical,
-	MessageCircle,
-	MessageCirclePlus,
-	MessageSquare,
-} from 'lucide-react';
-import React from 'react';
-import SearchBar from './SearchBar';
-import AddFriendDialog from '@/components/ui/AddFriendDialog';
-import { User } from '@clerk/nextjs/server';
-import FriendsList from './FriendsList';
-import { useQuery } from 'convex/react';
-import { api } from '@/convex/_generated/api';
-import { UserButton } from '@clerk/nextjs';
-import { Skeleton } from '@/components/ui/skeleton';
 import ChatList from '@/components/ChatList';
 import SidebarMenu from '@/components/SidebarMenu';
+import AddFriendDialog from '@/components/ui/AddFriendDialog';
+import { Skeleton } from '@/components/ui/skeleton';
+import { api } from '@/convex/_generated/api';
+import { User } from '@clerk/nextjs/server';
+import { useQuery } from 'convex/react';
+import { EllipsisVertical } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import FriendsList from './FriendsList';
 
 export default function Sidebar({ user }: { user: User | undefined | null }) {
 	const pathname = usePathname();
@@ -60,7 +52,7 @@ export default function Sidebar({ user }: { user: User | undefined | null }) {
 						<SidebarMenu />
 					</div>
 				</div>
-				<SearchBar />
+				{/* <SearchBar /> */}
 				<FriendsList userId={user.id} friendList={userData?.friendsList} />
 				<ChatList />
 			</div>

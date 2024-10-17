@@ -2,7 +2,6 @@
 import MessageContainer from '@/components/MessageContainer';
 import { Loader2 } from 'lucide-react';
 import { useEffect, useRef } from 'react';
-import { useInView } from 'react-intersection-observer';
 
 export type ChatType = {
 	friendUserName: string;
@@ -33,6 +32,11 @@ export default function ChatBody({
 	chat: ChatType | undefined | 'no user';
 	userId?: string;
 }) {
+	const lastDivRef = useRef<any>(null);
+	useEffect(() => {
+		lastDivRef.current?.scrollIntoView({ behavior: 'smooth' });
+	}, [chat]);
+
 	if (chat == undefined)
 		return (
 			<div className='h-full w-full flex items-center justify-center'>
@@ -45,12 +49,15 @@ export default function ChatBody({
 			{chat !== 'no user' &&
 				chat.messages.length > 0 &&
 				chat.messages.map((message) => (
-					<MessageContainer
-						key={message.messageId}
-						message={message}
-						userId={userId}
-						friendId={chat.friendUserId}
-					/>
+					<>
+						<MessageContainer
+							key={message.messageId}
+							message={message}
+							userId={userId}
+							friendId={chat.friendUserId}
+						/>
+						<div ref={lastDivRef} className='size-0'></div>
+					</>
 				))}
 		</div>
 	);

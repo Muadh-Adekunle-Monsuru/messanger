@@ -16,9 +16,11 @@ export default function ChatInputBar({
 	friendId,
 }: {
 	userId: string | undefined;
-	friendData?: friendDataType;
+	friendData?: friendDataType | 'no user';
 	friendId: string;
 }) {
+	if (friendData == 'no user') return;
+
 	const sendMessage = useMutation(api.actions.sendMessage);
 	const [message, setMessage] = useState('');
 	const [showEmoji, setShowEmoji] = useState(false);

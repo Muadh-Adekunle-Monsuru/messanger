@@ -157,7 +157,7 @@ export default function MessageContainer({
 
 			<div className='absolute bottom-0 right-1 text-[0.6rem] text-neutral-500 font-thin flex gap-1 items-center'>
 				{starred && <Star className='size-2 ' fill='black' />}
-				<span>{formatTime(date)}</span>
+				<span className='line-clamp-1'>{formatTime(date)}</span>
 				<span className={` ${userId !== sender && 'hidden'}`}>
 					<CheckCheck
 						className={`size-3 ${seen ? 'text-blue-400' : 'text-neutral-400'}`}
