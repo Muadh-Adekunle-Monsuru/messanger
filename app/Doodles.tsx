@@ -25,7 +25,7 @@ export default function Doodles() {
 		}
 	}, []);
 	return (
-		<div className='h-screen w-full absolute top-0 left-0 right-0 -z-10 border-4 flex items-center justify-center overflow-hidden blur-[1px]'>
+		<div className='h-screen w-full absolute top-0 left-0 right-0 -z-10 flex items-center justify-center overflow-hidden blur-[1px]'>
 			{[1, 2, 3, 6].map((number, index) => {
 				const top = Math.random() * (screenSize.height - 40); // Adjust for image height
 				const left = Math.random() * (screenSize.width - 40);

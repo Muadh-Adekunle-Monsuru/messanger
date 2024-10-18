@@ -24,13 +24,13 @@ export default function Home() {
 				conversations going with just a tap.
 			</p>
 
-			<div className='p-3 px-5 bg-neutral-100 shadow-lg rounded-md  font-[family-name:var(--font-londrina)] absolute top-1/4 left-32 rotate-12 select-none hover:shadow-xl'>
+			<div className='p-3 px-5 bg-neutral-100 shadow-lg rounded-md  font-[family-name:var(--font-londrina)] absolute bottom-1/4 left-2 md:top-1/4 md:left-32 rotate-12 select-none hover:shadow-xl'>
 				<p className='font-bold'>Speedy</p>
 			</div>
-			<div className='p-3 px-5 bg-neutral-100 shadow-lg rounded-md  font-[family-name:var(--font-londrina)] absolute top-1/3 right-52 -rotate-12 select-none hover:shadow-xl'>
+			<div className='p-3 px-5 bg-neutral-100 shadow-lg rounded-md  font-[family-name:var(--font-londrina)] absolute top-20 md:top-1/3 right-52 -rotate-12 select-none hover:shadow-xl'>
 				<p className='font-bold'>Secure</p>
 			</div>
-			<div className='p-3 px-5 bg-neutral-100 shadow-lg rounded-md  font-[family-name:var(--font-londrina)] absolute bottom-1/4 left-32 rotate-1 select-none hover:shadow-xl'>
+			<div className='p-3 px-5 bg-neutral-100 shadow-lg rounded-md  font-[family-name:var(--font-londrina)] absolute bottom-14 left-1/2 md:left-32 rotate-1 select-none hover:shadow-xl'>
 				<p className='font-semibold'>Simple</p>
 			</div>
 			<Button
