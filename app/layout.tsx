@@ -4,7 +4,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
-
+import { Londrina_Sketch } from 'next/font/google';
 const geistSans = localFont({
 	src: './fonts/GeistVF.woff',
 	variable: '--font-geist-sans',
@@ -15,7 +15,11 @@ const geistMono = localFont({
 	variable: '--font-geist-mono',
 	weight: '100 900',
 });
-
+const londrina = Londrina_Sketch({
+	weight: '400',
+	variable: '--font-londrina',
+	subsets: ['latin'],
+});
 export const metadata: Metadata = {
 	title: 'Messenger',
 	description: 'Seamless messaging, effortless connections.',
@@ -30,7 +34,7 @@ export default function RootLayout({
 		<ClerkProvider>
 			<html lang='en'>
 				<body
-					className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+					className={`${geistSans.variable} ${geistMono.variable} ${londrina.variable} antialiased`}
 				>
 					<ConvexClientProvider>{children}</ConvexClientProvider> <Toaster />
 				</body>

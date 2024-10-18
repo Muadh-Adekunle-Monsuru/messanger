@@ -2,7 +2,7 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuTrigger
+	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { SignOutButton } from '@clerk/nextjs';
 import { EllipsisVertical } from 'lucide-react';
@@ -17,7 +17,6 @@ export default function SidebarMenu() {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
 				<DropdownMenuItem>New Group</DropdownMenuItem>
-				<DropdownMenuItem>Starred Messages</DropdownMenuItem>
 				<DropdownMenuItem>
 					<SignOutButton>Log Out</SignOutButton>
 				</DropdownMenuItem>
