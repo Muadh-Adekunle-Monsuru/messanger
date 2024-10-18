@@ -26,7 +26,7 @@ export default function PageLayout({
 			});
 			setOnline({ userId: user.id });
 		}
-	}, [isLoaded, isSignedIn, user,setOnline,createUser]);
+	}, [isLoaded, isSignedIn, user, setOnline, createUser]);
 
 	useEffect(() => {
 		const handleClose = () => {
@@ -44,7 +44,7 @@ export default function PageLayout({
 		};
 	}, [user?.id]);
 	return (
-		<div className='h-screen max-h-screen overflow-hidden w-full flex'>
+		<div className='h-screen max-h-[100dvh] overflow-hidden w-full flex'>
 			<Sidebar user={user as unknown as User} />
 			{children}
 		</div>
